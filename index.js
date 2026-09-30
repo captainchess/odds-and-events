@@ -1,47 +1,77 @@
 // === State ===
 
-let bank;
-let odds;
-let evens;
+let bank = [];
+let odds = [];
+let evens = [];
 
 function addToBank(n) {
-    bank = !bank ? n : bank + ' ' + n;
-    render();
+  bank.push(n);
+  render();
 }
 
 function addToOdds(n) {
-  odds += n;
+  odds.push(n);
+
+  render();
 }
 
 function addToEvens(n) {
-  evens += n;
+  evens.push(n);
+
+  render();
+}
+
+function isOddOrEven(n) {
+  if (n % 2 != 0) {
+      addToOdds(n);
+    } else {
+      addToEvens(n);
+    }
 }
 
 // === Components ===
 
+function Display(num) {
+  const $p = document.createElement("p");
+  $p.innerHTML = num;
+
+  return $p;
+}
+
 function BankDisplay() {
   const $bank = document.createElement("div");
-  $bank.innerHTML += `
-        <p>${bank}</p>
-    `;
+
+  if (!bank) {
+    return $bank;
+  }
+
+  const $display = bank.map((number) => Display(number));
+
+  $bank.replaceChildren(...$display);
 
   return $bank;
 }
 
 function OddsDisplay() {
-  const $odd = document.createElement("div");
-  $odd.innerHTML += `
-        <p>${odds}</p>
-    `;
+  const $odds = document.createElement("div");
+  if (odds < 1) {
+    return $odds;
+  }
 
-  return $odd;
+  const $display = odds.map((number) => Display(number));
+  $odds.replaceChildren(...$display);
+
+  return $odds;
 }
 
 function EvensDisplay() {
   const $even = document.createElement("div");
-  $even.innerHTML += `
-        <p>${evens}</p>
-    `;
+  if (evens < 1) {
+    return $even;
+  }
+
+  const $display = evens.map((number) => Display(number));
+  $even.replaceChildren(...$display);
 
   return $even;
 }
@@ -56,29 +86,47 @@ function InputForm() {
         <button>Add Number</button>
     `;
 
-    $form.addEventListener("submit", (event) => {
-        event.preventDefault();
+  $form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-        const data = new FormData($form);
-        const input = data.get("add-input");
+    const data = new FormData($form);
+    const input = data.get("add-input");
 
-        addToBank(input);
-    });
+    addToBank(input);
+  });
 
   return $form;
 }
 
 function SortOneButton() {
-    const $sortBtn = document.createElement("button");
-    $sortBtn.innerHTML = "Sort 1";
+  const $sortBtn = document.createElement("button");
+  $sortBtn.innerHTML = "Sort 1";
 
-    $sortBtn.addEventListener("click", () => {
+  $sortBtn.addEventListener("click", () => {
+    // Check if first index of bank is even or odd
+    const num = bank.shift();
+    isOddOrEven(num);
+    
+  });
 
-    });
-
-    return $sortBtn;
+  return $sortBtn;
 }
 
+function SortAll() {
+  const $sortBtn = document.createElement("button");
+  $sortBtn.innerHTML = "Sort All";
+
+  $sortBtn.addEventListener("click", () => {
+    for (num of bank) {
+        console.debug(num);
+      isOddOrEven(num);
+    }
+    bank = [];
+    render();
+  });
+
+  return $sortBtn;
+}
 
 // === Render ===
 
@@ -88,7 +136,8 @@ function render() {
   $app.innerHTML = `
         <h1>Odds And Events</h1>
         <Form></Form>
-        <Buttons></Buttons>
+        <Sort1></Sort1>
+        <SortAll></SortAll>
 
         <h2>Bank</h2>
         <Bank></Bank>
@@ -101,7 +150,11 @@ function render() {
     `;
 
   $app.querySelector("Form").replaceWith(InputForm());
+  $app.querySelector("Sort1").replaceWith(SortOneButton());
+  $app.querySelector("SortAll").replaceWith(SortAll());
   $app.querySelector("Bank").replaceWith(BankDisplay());
+  $app.querySelector("Odds").replaceWith(OddsDisplay());
+  $app.querySelector("Evens").replaceWith(EvensDisplay());
 }
 
 render();
