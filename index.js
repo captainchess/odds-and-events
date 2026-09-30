@@ -23,10 +23,10 @@ function addToEvens(n) {
 
 function isOddOrEven(n) {
   if (n % 2 != 0) {
-      addToOdds(n);
-    } else {
-      addToEvens(n);
-    }
+    addToOdds(n);
+  } else {
+    addToEvens(n);
+  }
 }
 
 // === Components ===
@@ -38,46 +38,9 @@ function Display(num) {
   return $p;
 }
 
-function BankDisplay() {
-  const $bank = document.createElement("div");
-
-  if (!bank) {
-    return $bank;
-  }
-
-  const $display = bank.map((number) => Display(number));
-
-  $bank.replaceChildren(...$display);
-
-  return $bank;
-}
-
-function OddsDisplay() {
-  const $odds = document.createElement("div");
-  if (odds < 1) {
-    return $odds;
-  }
-
-  const $display = odds.map((number) => Display(number));
-  $odds.replaceChildren(...$display);
-
-  return $odds;
-}
-
-function EvensDisplay() {
-  const $even = document.createElement("div");
-  if (evens < 1) {
-    return $even;
-  }
-
-  const $display = evens.map((number) => Display(number));
-  $even.replaceChildren(...$display);
-
-  return $even;
-}
-
 function InputForm() {
   const $form = document.createElement("form");
+  $form.classList.add("form");
   $form.innerHTML = `
         <label>
             Add a number to the bank
@@ -101,12 +64,15 @@ function InputForm() {
 function SortOneButton() {
   const $sortBtn = document.createElement("button");
   $sortBtn.innerHTML = "Sort 1";
+  $sortBtn.classList.add("sort-one-btn");
 
   $sortBtn.addEventListener("click", () => {
     // Check if first index of bank is even or odd
+    if (bank < 1) {
+        return $sortBtn;
+    }
     const num = bank.shift();
     isOddOrEven(num);
-    
   });
 
   return $sortBtn;
@@ -115,10 +81,11 @@ function SortOneButton() {
 function SortAll() {
   const $sortBtn = document.createElement("button");
   $sortBtn.innerHTML = "Sort All";
+  $sortBtn.classList.add("sort-all-btn");
 
   $sortBtn.addEventListener("click", () => {
     for (num of bank) {
-        console.debug(num);
+      console.debug(num);
       isOddOrEven(num);
     }
     bank = [];
@@ -128,6 +95,47 @@ function SortAll() {
   return $sortBtn;
 }
 
+function BankDisplay() {
+  const $bank = document.createElement("div");
+  $bank.classList.add("bank");
+
+  if (!bank) {
+    return $bank;
+  }
+
+  const $display = bank.map((number) => Display(number));
+
+  $bank.replaceChildren(...$display);
+
+  return $bank;
+}
+
+function OddsDisplay() {
+  const $odds = document.createElement("div");
+  $odds.classList.add("odds");
+  if (odds < 1) {
+    return $odds;
+  }
+
+  const $display = odds.map((number) => Display(number));
+  $odds.replaceChildren(...$display);
+
+  return $odds;
+}
+
+function EvensDisplay() {
+  const $even = document.createElement("div");
+  $even.classList.add("evens");
+  if (evens < 1) {
+    return $even;
+  }
+
+  const $display = evens.map((number) => Display(number));
+  $even.replaceChildren(...$display);
+
+  return $even;
+}
+
 // === Render ===
 
 function render() {
@@ -135,9 +143,11 @@ function render() {
 
   $app.innerHTML = `
         <h1>Odds And Events</h1>
-        <Form></Form>
-        <Sort1></Sort1>
-        <SortAll></SortAll>
+        <div class="form-and-btns">
+            <Form></Form>
+            <Sort1></Sort1>
+            <SortAll></SortAll>
+        </div>
 
         <h2>Bank</h2>
         <Bank></Bank>
