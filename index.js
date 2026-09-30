@@ -6,6 +6,7 @@ let evens;
 
 function addToBank(n) {
     bank = !bank ? n : bank + ' ' + n;
+    render();
 }
 
 function addToOdds(n) {
@@ -100,6 +101,7 @@ function render() {
     `;
 
   $app.querySelector("Form").replaceWith(InputForm());
+  $app.querySelector("Bank").replaceWith(BankDisplay());
 }
 
 render();
