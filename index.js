@@ -1,11 +1,11 @@
 // === State ===
 
-let bank = 0;
-let odds = 0;
-let evens = 0;
+let bank;
+let odds;
+let evens;
 
 function addToBank(n) {
-  bank += n;
+    bank = !bank ? n : bank + ' ' + n;
 }
 
 function addToOdds(n) {
@@ -20,7 +20,7 @@ function addToEvens(n) {
 
 function BankDisplay() {
   const $bank = document.createElement("div");
-  $bank.innerHTML = `
+  $bank.innerHTML += `
         <p>${bank}</p>
     `;
 
@@ -29,7 +29,7 @@ function BankDisplay() {
 
 function OddsDisplay() {
   const $odd = document.createElement("div");
-  $odd.innerHTML = `
+  $odd.innerHTML += `
         <p>${odds}</p>
     `;
 
@@ -38,7 +38,7 @@ function OddsDisplay() {
 
 function EvensDisplay() {
   const $even = document.createElement("div");
-  $even.innerHTML = `
+  $even.innerHTML += `
         <p>${evens}</p>
     `;
 
@@ -61,10 +61,21 @@ function InputForm() {
         const data = new FormData($form);
         const input = data.get("add-input");
 
-        addToBank(Number(input));
+        addToBank(input);
     });
 
   return $form;
+}
+
+function SortOneButton() {
+    const $sortBtn = document.createElement("button");
+    $sortBtn.innerHTML = "Sort 1";
+
+    $sortBtn.addEventListener("click", () => {
+
+    });
+
+    return $sortBtn;
 }
 
 
