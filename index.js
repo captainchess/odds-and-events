@@ -17,6 +17,52 @@ function addToEvens(n) {
   evens += 1;
 }
 
+// === Components ===
+
+function BankDisplay() {
+  const $bank = document.createElement("div");
+  $bank.innerHTML = `
+        <p>${bank}</p>
+    `;
+
+  return $bank;
+}
+
+function OddsDisplay() {
+  const $odd = document.createElement("div");
+  $odd.innerHTML = `
+        <p>${odds}</p>
+    `;
+
+  return $odd;
+}
+
+function EvensDisplay() {
+  const $even = document.createElement("div");
+  $even.innerHTML = `
+        <p>${evens}</p>
+    `;
+
+  return $even;
+}
+
+function InputForm() {
+  const $form = document.createElement("form");
+  $form.innerHTML = `
+        <label>
+            Add a number to the bank
+            <input name="add-input" type="number" />
+        </label>
+        <button name="add-num" type="button">Add Number</button>
+        <button name="sort-1" type="button">Sort 1</button>
+        <button name="sort-all" type="button">Sort All</button>
+    `;
+
+  
+
+  return $form;
+}
+
 // === Render ===
 
 function render() {
