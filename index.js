@@ -1,20 +1,19 @@
 // === State ===
 
-const bank = 0;
-const odds = 0;
-const evens = 0;
+let bank = 0;
+let odds = 0;
+let evens = 0;
 
 function addToBank(n) {
-  bank += 1;
-  BankDisplay();
+  bank += n;
 }
 
 function addToOdds(n) {
-  odds += 1;
+  odds += n;
 }
 
 function addToEvens(n) {
-  evens += 1;
+  evens += n;
 }
 
 // === Components ===
@@ -53,15 +52,21 @@ function InputForm() {
             Add a number to the bank
             <input name="add-input" type="number" />
         </label>
-        <button name="add-num" type="button">Add Number</button>
-        <button name="sort-1" type="button">Sort 1</button>
-        <button name="sort-all" type="button">Sort All</button>
+        <button>Add Number</button>
     `;
 
-  
+    $form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const data = new FormData($form);
+        const input = data.get("add-input");
+
+        addToBank(Number(input));
+    });
 
   return $form;
 }
+
 
 // === Render ===
 
@@ -71,6 +76,7 @@ function render() {
   $app.innerHTML = `
         <h1>Odds And Events</h1>
         <Form></Form>
+        <Buttons></Buttons>
 
         <h2>Bank</h2>
         <Bank></Bank>
