@@ -1,4 +1,21 @@
+// === State ===
 
+const bank = 0;
+const odds = 0;
+const evens = 0;
+
+function addToBank(n) {
+  bank += 1;
+  BankDisplay();
+}
+
+function addToOdds(n) {
+  odds += 1;
+}
+
+function addToEvens(n) {
+  evens += 1;
+}
 
 // === Render ===
 
